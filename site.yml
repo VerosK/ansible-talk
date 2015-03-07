@@ -1,0 +1,22 @@
+---
+- hosts: CentOS
+  user: root
+  roles:
+  - { role: goozbach.EPEL, epel_enabled: 0 }
+
+- name: Common features for all systems
+  hosts: all
+  user: root
+  tasks:
+  - name: Update package
+    shell: apt-get update
+    when: ansible_os_family == "Debian"
+
+  - name: Install Apache
+    apt: name=apache2 state=installed
+    when: ansible_os_family == "Debian"
+
+  - name: Install Apache2
+    yum: name=httpd state=installed
+    when: ansible_os_family == "RedHat"
+
