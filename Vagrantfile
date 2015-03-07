@@ -24,12 +24,14 @@ Vagrant.configure("2") do |config|
           box.vm.box_url= boxconfig[:box_url]
           box.vm.host_name = boxname.to_s
 
+
           box.vm.network "forwarded_port", guest: 80, host: 9080+offset
 
           #box.vm.network "private_network", ip: boxconfig[:ip_addr]
 
           box.vm.provider :virtualbox do |vb|
             vb.customize ["modifyvm", :id, "--memory", "1536"]
+            vb.customize ["modifyvm", :id, "--usb", "off"]
           end
 
           box.vm.provision :shell do |s|
